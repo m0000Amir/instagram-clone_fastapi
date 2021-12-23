@@ -35,9 +35,8 @@ def create(request: PostBase, db: Session =  Depends(get_db),
     return db_post.create(db, request)
 
 
-@router.post("/all", response_model=List[PostDisplay])
+@router.get("/all", response_model=List[PostDisplay])
 def posts(db: Session = Depends(get_db)):
-    a = db_post.get_all(db)
     return db_post.get_all(db)
 
 
