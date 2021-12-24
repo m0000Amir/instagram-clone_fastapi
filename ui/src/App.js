@@ -3,6 +3,7 @@ import { mergeClasses } from '@material-ui/styles';
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import Post from './Post';
+import ImageUpload from './ImageUpload';
 
 
 
@@ -85,8 +86,10 @@ function App() {
         const t_a = a.timestamp.split(/[-T:]/);
         const t_b = b.timestamp.split(/[-T:]/);
 
-        const d_a = new Date(Date.UTC(t_a[0], t_a[1]-1, t_a[2], t_a[3], t_a[4], t_a[5]));
-        const d_b = new Date(Date.UTC(t_b[0], t_b[1]-1, t_b[2], t_b[3], t_b[4], t_b[5]));
+        const d_a = new Date(
+          Date.UTC(t_a[0], t_a[1]-1, t_a[2], t_a[3], t_a[4], t_a[5]));
+        const d_b = new Date(
+          Date.UTC(t_b[0], t_b[1]-1, t_b[2], t_b[3], t_b[4], t_b[5]));
 
         return d_b - d_a
         
@@ -170,7 +173,6 @@ function App() {
         throw response
       })
       .then(data => {
-        console.log(111);
         signIn();
       })
       .catch(error => {
@@ -191,7 +193,9 @@ function App() {
         <div style={modalStyle} className={classes.paper}>
             <form className='app_signin'>
               <center>
-                <img className='app_headerImage' src='https://smoservice.media/bitrix/templates/smoservice_v1/assets/_bl/6/s92849119.jpg' alt='Instagram'/>
+                <img className='app_headerImage' 
+                src='https://smoservice.media/bitrix/templates/smoservice_v1/assets/_bl/6/s92849119.jpg' 
+                alt='Instagram'/>
               </center>
 
               <Input 
@@ -220,7 +224,9 @@ function App() {
         <div style={modalStyle} className={classes.paper}>
             <form className='app_signin'>
               <center>
-                <img className='app_headerImage' src='https://smoservice.media/bitrix/templates/smoservice_v1/assets/_bl/6/s92849119.jpg' alt='Instagram'/>
+                <img className='app_headerImage' 
+                src='https://smoservice.media/bitrix/templates/smoservice_v1/assets/_bl/6/s92849119.jpg' 
+                alt='Instagram'/>
               </center>
 
               <Input 
@@ -268,11 +274,25 @@ function App() {
         {
           posts.map(post => (
             <Post 
-              post = {post}
+              post={post}
+              authToken={authToken}
+              authTokenType={authTokenType}
+              username={username}
             />
           ))
         }
       </div>
+      {
+        authToken ? (
+          <ImageUpload
+            authToken={authToken}
+            authTokenType={authTokenType}
+            userId = {userId}
+          />
+        ) : (
+          <h3>You need to login upload </h3>
+        )
+      }
     </div>
   );
 }
